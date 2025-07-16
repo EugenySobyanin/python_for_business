@@ -25,8 +25,9 @@ info = {
     'client_x509_cert_url':  os.environ['CLIENT_X509_CERT_URL']
 }
 
-# Функция авторизации.
+
 def auth():
+    """Авторизация сервисного аккаунта в google drive."""
     credentials = Credentials.from_service_account_info(
         info=info, scopes=SCOPES)
     service = discovery.build('drive', 'v3', credentials=credentials)
@@ -34,8 +35,10 @@ def auth():
 
 
 def get_list_obj(service):
+    """Получение всех таблиц с гугл диска."""
     response = service.files().list(q="mimeType='application/vnd.google-apps.spreadsheet'")
     return response.execute()
+
 
 service = auth()
 pprint(get_list_obj(service))
